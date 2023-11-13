@@ -3,6 +3,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { StyleSheet, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -78,7 +79,7 @@ export default function Login() {
           </TouchableOpacity>
           <View style={{ flexDirection: "row", ...Style.centre }}>
             <Text>Don't have an account?</Text>
-            <Text style={{ color: "#24a0ed" }}>SignUp</Text>
+            <Pressable onPress={() => navigation.navigate("SignUp")}><Text style={{ color: "#24a0ed" }}>SignUp</Text></Pressable>
           </View>
         </View>
       </View>

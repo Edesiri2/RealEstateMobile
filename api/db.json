@@ -1,0 +1,28 @@
+{
+    "properties": [
+        {
+            "id": 1,
+            "title": "Bungalow",
+            "price": 200000,
+            "description": "This is a bungalow",
+            "image": "https://media-cdn.tripadvisor.com/media/vr-splice-j/04/c8/35/4f.jpg",
+            "bathroom": 2
+        },
+        {
+            "id": 2,
+            "title": "Duplex",
+            "price": 300000,
+            "description": "This is a duplex",
+            "image": "https://i.pinimg.com/736x/aa/05/9c/aa059c230652d65ddb853a87d13a13da.jpg",
+            "bathroom": 6
+        },
+        {
+            "id": 3,
+            "title": "ShortApartment",
+            "price": 10000,
+            "description": "This is a short apartment",
+            "image": "https://i.pinimg.com/564x/5f/f8/b7/5ff8b787758d550a714fe2a9e49081b0.jpg",
+            "bathroom": 1
+        }
+    ]
+}

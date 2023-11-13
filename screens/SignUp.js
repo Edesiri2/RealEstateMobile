@@ -1,86 +1,69 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, TextInput, StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, TextInput, TouchableOpacity,StyleSheet } from "react-native";
+import React from "react";
+import { Formik } from "formik";
+import SignUpvalidationSchema from "../validation/SignUpvalidationSchema";
 
-export default function Home() {
-  const [propertyData, setPropertyData] = useState(null);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(
-          "https://bayut.p.rapidapi.com/properties/list?locationExternalIDs=5002,6020&purpose=for-rent&hitsPerPage=25&page=0&lang=en&sort=city-level-score&rentFrequency=monthly&categoryExternalID=4",
-          {
-            method: "GET",
-            headers: {
-              'X-RapidAPI-Key': '733c453936msh491b5a2a3f23953p136746jsnb4794ded9d40',
-              'X-RapidAPI-Host': 'bayut.p.rapidapi.com',
-            },
-          }
-        );
-        const data = await response.json();
-        setPropertyData(data);
-        console.log(data);
-
-        if (response.ok) {
-          console.log("success");
-        } else {
-          console.log("failed");
-        }
-      } catch (error) {
-        console.error(error);
-        console.log("failed");
-      }
-    };
-
-    getData();
-  }, []);
-
+export default function SignUp() {
   return (
-    <View>
-      <View style={{ ...styles.centre, flexDirection: "row" }}>
-        <View
-          style={{
-            width: 300,
-            borderColor: "black",
-            borderWidth: 1,
-            borderRadius: 15,
-            padding: 10,
-            flexDirection: "row",
-            gap: 20,
-            margin: 20,
-          }}
-        >
-          <Pressable>
-            <AntDesign name="search1" size={24} color="black" />
-          </Pressable>
-          <TextInput placeholder="Search Location" />
+    <Formik
+      initialValues={{ email: "", password: "", phoneNumber: "", state: "" }}
+      onSubmit={(values) => console.log(values)}
+      validationSchema={SignUpvalidationSchema}
+    >
+      {({ errors, handleChange, handleSubmit, values }) => (
+        <View style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#34495E", height: "100%" }} >
+          <View style={{backgroundColor:"white",borderRadius:20, paddingHorizontal:20, height:"80%", paddingVertical:60}} >
+          <View style={{justifyContent:"center",alignItems:"center",marginTop:20, marginBottom:20}}><Text style={{fontSize:20,fontWeight:"bold"}}>Sign Up</Text></View>
+            <View>
+              <TextInput
+                style={style.TextInputStyle }
+                placeholder="Email"
+                value={values.email}
+                onChangeText={handleChange("email")}
+              />
+              <Text style={{ color: "red" }}>{errors.email}</Text>
+            </View>
+            <View>
+              <TextInput
+              style={style.TextInputStyle }
+                placeholder="Password"
+                value={values.password}
+                onChangeText={handleChange("password")}
+              />
+              <Text style={{ color: "red" }}>{errors.password}</Text>
+            </View>
+            <View>
+              <TextInput
+              style={style.TextInputStyle }
+                placeholder="Phone Number"
+                value={values.phoneNumber}
+                onChangeText={handleChange("phoneNumber")}
+              />
+              <Text style={{ color: "red" }}>{errors.phoneNumber}</Text>
+            </View>
+            <View>
+              <TextInput
+              style={style.TextInputStyle }
+                placeholder="State"
+                value={values.state}
+                onChangeText={handleChange("state")}
+              />
+              <Text style={{ color: "red" }}>{errors.state}</Text>
+            </View>
+           
+           <TouchableOpacity style={{justifyContent:"center",alignItems:"center",height:45, marginTop:20, backgroundColor:"#24a0ed",padding:10, borderRadius:10}} onPress={handleSubmit}>
+              <Text>Submit</Text>
+            </TouchableOpacity>
+           
+          </View>
         </View>
-        <View
-          style={{
-            borderColor: "black",
-            borderWidth: 1,
-            padding: 8,
-            borderRadius: 10,
-            backgroundColor: "black",
-          }}
-        >
-          <Ionicons name="filter" size={24} color="white" />
-        </View>
-      </View>
-
-      <View>
-        <Text>{propertyData?.price}</Text>
-        {/* Add additional Text components for other property data */}
-      </View>
-    </View>
+      )}
+    </Formik>
   );
 }
 
-const styles = StyleSheet.create({
-  centre: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const style = StyleSheet.create({
+  TextInputStyle: {
+    padding: 10, width: 300, height: 45,borderRadius: 10, borderColor: "gray", borderWidth: 1
+  }
+})

@@ -11,12 +11,14 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Home() {
-  const [propertyData, setPropertyData] = useState(null);
+  const [propertyData, setPropertyData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(
-          "https://bayut.p.rapidapi.com/properties/detail?externalID=4937770",
+          "https://bayut.p.rapidapi.com/properties/list?locationExternalIDs=5002,6020&purpose=for-rent&hitsPerPage=25&page=0&lang=en&sort=city-level-score&rentFrequency=monthly&categoryExternalID=4 ",
           {
             method: "GET",
             headers: {
@@ -26,9 +28,11 @@ export default function Home() {
             },
           }
         );
+        setIsLoading(true)
         const data = await response.json();
         setPropertyData(data);
-        console.log(data.photos[2].url);
+        console.log(data);
+        setIsLoading(false)
         if (response.ok) {
           console.log("success");
         } else {
@@ -43,48 +47,25 @@ export default function Home() {
   }, []);
 
   return (
-    <View>
-      <View style={{ ...style.centre, flexDirection: "row" }}>
-        <View
-          style={{
-            width: 300,
-            borderColor: "black",
-            borderWidth: 1,
-            borderRadius: 15,
-            padding: 10,
-            flexDirection: "row",
-            gap: 20,
-            margin: 20,
-          }}
-        >
-          <Pressable>
-            <AntDesign name="search1" size={24} color="black" />
-          </Pressable>
-          <TextInput placeholder="Search Location" />
-        </View>
-        <View
-          style={{
-            borderColor: "black",
-            borderWidth: 1,
-            padding: 8,
-            borderRadius: 10,
-            backgroundColor: "black",
-          }}
-        >
-          <Ionicons name="filter" size={24} color="white" />
-        </View>
-      </View>
-      <View style={{ flexDirection: "row", gap: 20, marginHorizontal: 20, justifyContent:"center", alignItems:"center" }}>
-       <Pressable>
-       <Image style={{ height: 170, width: 170, borderRadius: 10  }} source={{uri: propertyData?.photos[0].url}}/>
-        <Text style={{ fontSize: 20, color: "black", marginLeft:40 }}>Miami</Text>
-       </Pressable>
-       <Pressable>
-       <Image style={{ height: 170, width: 170, borderRadius: 10  }} source={{uri: propertyData?.photos[2].url}}/>
-        <Text style={{ fontSize: 20, color: "black",marginLeft:40 }}>Las Vegas</Text>
-       </Pressable>
-      </View>
+    <>
+    {isLoading === false ? (
+      <View>
+      {propertyData?.hits?.map((item, index) => (
+        
+          <Text key={index}>{item.id} - {item.title}</Text>
+        )
+      )}
+      
     </View>
+    ):(
+      <View>
+        <Text>Loading</Text>
+      </View>
+    )
+
+    }
+    </>
+    
   );
 }
 
